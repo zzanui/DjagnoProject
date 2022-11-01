@@ -18,9 +18,11 @@ from django.urls import path,include
 import ChatApp.views
 
 urlpatterns = [
+    path('common/',include("common.urls")),
     path("ChatApp/",include("ChatApp.urls")),
     path("BoardApp/",include("BoardApp.urls")),
     path('admin/', admin.site.urls),
+    
     
     
 ]
