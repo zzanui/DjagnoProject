@@ -19,7 +19,7 @@ class Article(models.Model):
 # 댓글
 class Comment(models.Model):
     # 게시글 삭제시 동시에 같이 삭제//on_delete=models.CASCADE
-    question = models.ForeignKey(Article,on_delete=models.CASCADE)
+    article = models.ForeignKey(Article,on_delete=models.CASCADE)
     content = models.TextField()
     create_date = models.DateTimeField()
     

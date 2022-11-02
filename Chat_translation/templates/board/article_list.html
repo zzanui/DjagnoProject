@@ -1,9 +1,35 @@
-{% if article_list %}
-    <ul>
-    {% for article in article_list %}
-        <li><a href="{% url 'BoardApp:detail' article_id = article.id %}">{{ article.title }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>질문이 없습니다.</p>
-{% endif %}
+{% extends 'board/base.html' %}
+{% block content %}
+
+<div class="container my-3">
+    <table class="table">
+        <thead>
+        <tr class="table-dark">
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일지</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% if article_list%}
+            {%for article in article_list%}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>
+                    <a href="{% url 'BoardApp:detail' article_id=article.id %}">{{article.title}}</a>
+                </td>
+                <td>{{article.create_date}}</td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="3">질문이 없습니다.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    <a href="{% url 'BoardApp:article_create' %}" class="btn btn-primary">등록하기</a>
+</div>
+
+
+{% endblock  %}

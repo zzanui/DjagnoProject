@@ -8,5 +8,6 @@ urlpatterns = [
     
     path('',views.index,name = 'index'),
     path("board/<int:article_id>/",views.detail,name='detail'),
-    path('create/<int:question_id>/', views.answer_create, name='answer_create'),
+    path('create/<int:article_id>/', views.comment_create, name='comment_create'),
+    path('board/create/',views.article_create,name="article_create"),
 ]
