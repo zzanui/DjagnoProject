@@ -23,6 +23,7 @@ urlpatterns = [
     path("BoardApp/",include("BoardApp.urls")),
     path('admin/', admin.site.urls),
     
+    path('',include("BoardApp.urls"))
     
     
 ]

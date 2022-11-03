@@ -17,3 +17,11 @@
 django
 channels
 redis
+
+db게시물 생성
+from BoardApp.models import Article
+from django.utils import timezone
+
+for i in range(300):
+    q = Article(title='테스트 데이터입니다:[%03d]' % i, content='내용무', create_date=timezone.now())
+    q.save()
