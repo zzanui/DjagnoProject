@@ -1,6 +1,15 @@
 {% extends 'board/base.html' %}
 {% block content %}
 <div class="container my-3">
+    <!-- message 표시 -->
+    {% if messages %}
+    <div class = "alert alert-danger my-3" role = "alert">
+        {% for message in messages %}
+            <strong>{{message.tags}}</strong>
+            <ul><li>{{message.message}}</li></ul>
+        {% endfor %}
+    </div>
+    {% endif %}
     <!-- 질문 -->
     <h2 class="border-bottom py-2">{{ article.title }}</h2>
     <div class="card my-3">
@@ -12,6 +21,16 @@
                     <div>{{ comment.create_date }}</div>
                 </div>
             </div>
+            <!-- 수정 및 삭제 -->
+            <div class="my-3">
+                {% if request.user == article.author %}
+                <a href="{% url 'BoardApp:article_modify' article_id=article.id %}"
+                class ="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="{% url 'BoardApp:article_delete' article_id=article.id %}" class="delete btn btn-sm btn-outline-secondary" 
+                data-url="{% url 'BoardApp:article_delete' article_id=article.id %}">삭제</a>
+                {% endif %}<!-- href에서 javascript:void(0)로 설정해 놓으면 링크를 클릭하여도 아무런 동작도 하지 않는다-->
+            </div>
+
         </div>
     </div>
     <!-- 답변 -->
@@ -26,7 +45,14 @@
                     <div>{{ comment.create_date }}</div>
                 </div>
             </div>
+            
         </div>
+    </div>
+    <div class ="my-3">
+        {% if request.user == comment.author %}
+        <a href="{% url 'BoardApp:comment_modify' comment.id=comment_id %}"
+        class = "btn btn-sm btn-outline-secondary">수정</a>
+        {% endif %}
     </div>
     {% endfor %}
     <!-- 답변 등록 -->
@@ -53,3 +79,17 @@
     </form>
 </div>
 {% endblock  %} 
+
+
+{% block script %}
+<script type='text/javascript'>
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+</script>
+{% endblock %}

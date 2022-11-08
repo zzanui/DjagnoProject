@@ -3,10 +3,10 @@ from pydoc import pager
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from .forms import ArticleForm,CommentForm
-from .models import Article
+from .models import Article,Comment
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-
+from django.contrib import messages
 # Create your views here.
 def index(request):#게시판메인
     page = request.GET.get('page', '1') #페이지값을 가져올때 디폴트url 1
@@ -59,6 +59,57 @@ def article_create(request):#게시글등록
         
     context = {'form':form}
     return render(request,'board/article_form.html',context)
+
+@login_required(login_url="common:login")
+def article_modify(request,article_id):
+    article = get_object_or_404(Article,pk=article_id)
+    if request.user != article.author:
+        messages.error(request,'수정권한이 없습니다.')
+        return redirect("BoardApp:detail",article_id = article.id)
+    if request.method == "POST":
+        form = ArticleForm(request.POST,instance=article)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.modify_date = timezone.now()# 수정일시 저장
+            article.save()
+            return redirect('BoardApp:detail',article_id=article.id)
+    else:
+        form = ArticleForm(instance=article)#인스턴스(instance)값 지정시 속상값이 인스턴스 값으로 채워진다.
+    context = {'form':form}
+    return render(request,"board/article_form.html",context)
+            
+            
+@login_required(login_url="common:login")
+def article_delete(request,article_id):
+    print('삭제')
+    article = get_object_or_404(Article,pk=article_id)
+    if request.user != article.author:
+        messages.error(request,'삭제권한이 없습니다.')
+        return redirect('BoardApp:detail',article_id = article.id)
+    article.delete()
+    return redirect('/')
+
+@login_required(login_url="common:login")
+def comment_modify(request):
+    comment = get_object_or_404(Comment,pk=comment_id)
+    if request.user != comment.author:
+        messages.error(request,"수정권한이 없습니다.")
+        return redirect("BoardApp:detail",comment_id=comment.id)
+    if request.method == "POST":
+        form = CommentForm(request.POST,instance=comment)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.modify_date = timezone.now()
+            comment.save()
+            return redirect("BoardApp:detail",comment_id = comment.id)
+    else:
+        form = CommentForm(instance=comment)
+    context = {'comment':comment,"form":form}
+    return render(request,'board/comment_form.html',context)
+    
+        
+    
+    
     
 
     

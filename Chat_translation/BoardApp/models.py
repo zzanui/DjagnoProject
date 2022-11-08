@@ -12,6 +12,7 @@ class Article(models.Model):
     # 글자 수 제한 없음
     content = models.TextField()
     create_date = models.DateField()
+    modify_date = models.DateField(null=True,blank=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -24,4 +25,6 @@ class Comment(models.Model):
     article = models.ForeignKey(Article,on_delete=models.CASCADE)
     content = models.TextField()
     create_date = models.DateTimeField()
+    # blank=True는 form.is_valid()를 통한 입력 데이터 검증 시 값이 없어도 된다는 의미
+    modify_date = models.DateField(null=True,blank=True)
     
