@@ -15,15 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-import ChatApp.views
-
+from BoardApp.views import base_views
 urlpatterns = [
     path('common/',include("common.urls")),
     path("ChatApp/",include("ChatApp.urls")),
     path("BoardApp/",include("BoardApp.urls")),
     path('admin/', admin.site.urls),
     
-    path('',include("BoardApp.urls"))
+    path('',base_views.index,name="index"),
     
     
 ]

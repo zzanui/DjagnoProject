@@ -16,18 +16,24 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;">{{ article.content }}</div>
             <div class="d-flex justify-content-end">
+                {% if article.modify_date %}
+                <div class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div>{{ article.modify_date }}</div>
+                </div>
+            {% endif %}
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">{{article.author.username}}</div>
                     <div>{{ comment.create_date }}</div>
                 </div>
             </div>
-            <!-- 수정 및 삭제 -->
+            <!-- 게시글 수정 및 삭제 -->
             <div class="my-3">
                 {% if request.user == article.author %}
                 <a href="{% url 'BoardApp:article_modify' article_id=article.id %}"
                 class ="btn btn-sm btn-outline-secondary">수정</a>
-                <a href="{% url 'BoardApp:article_delete' article_id=article.id %}" class="delete btn btn-sm btn-outline-secondary" 
-                data-url="{% url 'BoardApp:article_delete' article_id=article.id %}">삭제</a>
+                <a href="{% url 'BoardApp:article_delete' article_id=article.id %}"
+                 class="delete btn btn-sm btn-outline-secondary" >삭제</a>
                 {% endif %}<!-- href에서 javascript:void(0)로 설정해 놓으면 링크를 클릭하여도 아무런 동작도 하지 않는다-->
             </div>
 
@@ -40,6 +46,12 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;">{{ comment.content }}</div>
             <div class="d-flex justify-content-end">
+                {% if comment.modify_date %}
+                <div class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div>{{ comment.modify_date }}</div>
+                </div>
+                {% endif %}
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">{{article.author.username}}</div>
                     <div>{{ comment.create_date }}</div>
@@ -49,9 +61,12 @@
         </div>
     </div>
     <div class ="my-3">
+        <!-- 게시글 수정 및 삭제 -->
         {% if request.user == comment.author %}
-        <a href="{% url 'BoardApp:comment_modify' comment.id=comment_id %}"
+        <a href="{% url 'BoardApp:comment_modify' comment_id=comment.id %}"
         class = "btn btn-sm btn-outline-secondary">수정</a>
+        <a href="{% url 'BoardApp:comment_delete' comment.id %}"
+         class = "delete btn btn-sm btn-outline-secondary">삭제</a>
         {% endif %}
     </div>
     {% endfor %}
