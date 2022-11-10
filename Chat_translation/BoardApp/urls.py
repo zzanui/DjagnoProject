@@ -13,9 +13,11 @@ urlpatterns = [
     path('board/create/',article_views.article_create,name="article_create"),
     path('article/modify/<int:article_id>/',article_views.article_modify,name="article_modify"),
     path('article/delete/<int:article_id>/',article_views.article_delete,name="article_delete"),
-    
+    path('article/vote/<int:article_id>/',article_views.article_vote,name="article_vote"),
+
     # comment_views
     path('comment/create/<int:article_id>/', comment_views.comment_create, name='comment_create'),
     path('comment/modify/<int:comment_id>',comment_views.comment_modify,name="comment_modify"),
     path('comment/delete/<int:commnet_id>',comment_views.comment_delete,name="comment_delete"),
+    path('comment/vote/<int:comment_id>/',comment_views.comment_vote,name="comment_vote"),
 ]

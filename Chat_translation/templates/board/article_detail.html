@@ -21,14 +21,18 @@
                     <div class="mb-2">modified at</div>
                     <div>{{ article.modify_date }}</div>
                 </div>
-            {% endif %}
+                {% endif %}
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2">{{article.author.username}}</div>
                     <div>{{ comment.create_date }}</div>
                 </div>
             </div>
-            <!-- 게시글 수정 및 삭제 -->
+            <!-- 게시글 추천,수정 및 삭제 -->
             <div class="my-3">
+                <a href="javascript:void(0)" data-uri="{% url 'BoardApp:article_vote' article_id=article.id  %}"
+               class="recommend btn btn-sm btn-outline-secondary"> 추천
+                <span class="badge rounded-pill bg-success">{{article.voter.count}}</span>
+            </a>
                 {% if request.user == article.author %}
                 <a href="{% url 'BoardApp:article_modify' article_id=article.id %}"
                 class ="btn btn-sm btn-outline-secondary">수정</a>
@@ -53,7 +57,7 @@
                 </div>
                 {% endif %}
                 <div class="badge bg-light text-dark p-2 text-start">
-                    <div class="mb-2">{{article.author.username}}</div>
+                    <div class="mb-2">{{comment.author.username}}</div>
                     <div>{{ comment.create_date }}</div>
                 </div>
             </div>
@@ -61,7 +65,11 @@
         </div>
     </div>
     <div class ="my-3">
-        <!-- 게시글 수정 및 삭제 -->
+        <!-- 댓글 수정 및 삭제 -->
+        <a href="javascript:void(0)" data-uri="{% url 'BoardApp:comment_vote' comment_id=comment.id  %}"
+               class="recommend btn btn-sm btn-outline-secondary"> 추천
+                <span class="badge rounded-pill bg-success">{{comment.voter.count}}</span>
+            </a>
         {% if request.user == comment.author %}
         <a href="{% url 'BoardApp:comment_modify' comment_id=comment.id %}"
         class = "btn btn-sm btn-outline-secondary">수정</a>
@@ -102,6 +110,15 @@ const delete_elements = document.getElementsByClassName("delete");
 Array.from(delete_elements).forEach(function(element) {
     element.addEventListener('click', function() {
         if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = this.dataset.uri;
+        };
+    });
+});
+
+const recommend_elements = document.getElementsByClassName("recommend");
+Array.from(recommend_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        if(confirm("정말로 추천하시겠습니까?")) {
             location.href = this.dataset.uri;
         };
     });

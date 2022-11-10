@@ -13,18 +13,20 @@ class Article(models.Model):
     content = models.TextField()
     create_date = models.DateField()
     modify_date = models.DateField(null=True,blank=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='author_article')
+    voter = models.ManyToManyField(User,related_name='voter_article')
+
+
     def __str__(self):
         return self.title
 
 # 댓글
 class Comment(models.Model):
     # 게시글 삭제시 동시에 같이 삭제//on_delete=models.CASCADE
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='author_comment')
     article = models.ForeignKey(Article,on_delete=models.CASCADE)
     content = models.TextField()
     create_date = models.DateTimeField()
     # blank=True는 form.is_valid()를 통한 입력 데이터 검증 시 값이 없어도 된다는 의미
     modify_date = models.DateField(null=True,blank=True)
-    
+    voter = models.ManyToManyField(User,related_name='voter_comment')

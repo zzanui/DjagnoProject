@@ -52,15 +52,24 @@ def comment_modify(request,comment_id):
     
 #댓글 삭제
 @login_required(login_url="common:login")
-def comment_delete(request,commnet_id):
-    comment = get_object_or_404(Comment,pk=commnet_id)
+def comment_delete(request,comment_id):
+    comment = get_object_or_404(Comment,pk=comment_id)
     if request.user != comment.author:
         messages.error("삭제권한이 없습니다.")
     else:
         comment.delete()
     return redirect("BoardApp:detail",article_id=comment.article.id)
 
-        
+#댓글 추천
+@login_required(login_url="common:login")
+def comment_vote(request,comment_id):
+    comment = get_object_or_404(Comment,pk=comment_id)
+    if request.user == comment.author:
+        messages.error(request,"본인이 작성한 글은 추천이 불가능합니다.")
+    else:
+        comment.voter.add(request.user)
+    return redirect("BoardApp:detail",article_id=comment.article.id)
+
     
     
     
