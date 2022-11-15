@@ -1,5 +1,7 @@
+
 {% extends "board/base.html" %}
 {% block content %}
+{% load socialaccount %}
 <div class="container my-3">
     <form method="post" action="{% url 'common:login' %}">
         {% csrf_token %}
@@ -17,5 +19,15 @@
         </div>
         <button type="submit" class="btn btn-primary">로그인</button>
     </form>
+<!--소셜 로그인 -->
+<a href="{% provider_login_url 'google'%}" class="social-button" id="google-connect">
+    <span>Login with Google</span></a>
+
+<a href="{% provider_login_url 'naver'%}" class="social-button" id="google-connect">
+    <span>Login with Naver</span></a>
+
 </div>
+
+
+
 {% endblock %}

@@ -42,10 +42,21 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #allauth
+    'django.contrib.sites', #사이트 정보를 설정하기 위해 필요
+    'allauth',
+    'allauth.account',  #가입한 계정을 관리하기 위해 필요
+    'allauth.socialaccount',    #소셜계정 관리를 위해 필요
+
+    #사용할 외부기능
+    'allauth.socialaccount.providers.google',#구글
+    'allauth.socialaccount.providers.naver',#네이버
     
     
 ]
 
+SITE_ID = 1 # 사이트 아이디 기본값
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,6 +69,14 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'Chat_translation.urls'
+
+AUTHENTICATION_BACKENDS=[
+    #기존 장고 인증기능
+    'django.contrib.auth.backends.ModelBackend',
+    #소셜로그인
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+]
 
 TEMPLATES = [
     {
@@ -147,3 +166,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/'
 #로그아웃시 이동하는 url
 LOGOUT_REDIRECT_URL = '/'
+#회원가입시 이동하는 URL
+ACCOUNT_STGNUP_REDIRECT_URL = '/'

@@ -28,3 +28,14 @@ from django.utils import timezone
 for i in range(300):
     q = Article(title='테스트 데이터입니다:[%03d]' % i, content='내용무', create_date=timezone.now())
     q.save()
+
+
+google 
+
+id : 962393017986-it1ebeko9fad1rglacpv4pdqg6ilh3fi.apps.googleusercontent.com
+pw : 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
+
+naver
+ 
+id : eLByxNU5CZEfxT69X1lA
+pw : waM6Pd00jU
