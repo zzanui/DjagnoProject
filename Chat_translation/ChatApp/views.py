@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-def index(request):
+def mainpage(request):
     return render(request, "chat/html/index.html")
 # Create your views here.
 

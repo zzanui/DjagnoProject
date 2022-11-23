@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'daphne',
-    'ChatApp',
+
     'BoardApp',
     'common',
     'django.contrib.admin',
@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'ChatApp',
+    'channels',
 
     #allauth
     'django.contrib.sites', #사이트 정보를 설정하기 위해 필요
