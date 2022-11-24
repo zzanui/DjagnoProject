@@ -1,9 +1,7 @@
-from importlib.resources import contents
-from turtle import title
-from unittest.util import _MAX_LENGTH
 from django.db import models
-from django.contrib.auth.models import User
-# Create your models here.
+from django.conf import settings
+# from django.contrib.auth.models import User
+
 
 # 게시글
 class Article(models.Model):
@@ -13,8 +11,10 @@ class Article(models.Model):
     content = models.TextField()
     create_date = models.DateField()
     modify_date = models.DateField(null=True,blank=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='author_article')
-    voter = models.ManyToManyField(User,related_name='voter_article')
+    #작성자
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='author_article')
+    #추천
+    voter = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='voter_article')
 
 
     def __str__(self):
@@ -22,11 +22,14 @@ class Article(models.Model):
 
 # 댓글
 class Comment(models.Model):
+    #작성자
     # 게시글 삭제시 동시에 같이 삭제//on_delete=models.CASCADE
-    author = models.ForeignKey(User, on_delete=models.CASCADE,related_name='author_comment')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name='author_comment')
     article = models.ForeignKey(Article,on_delete=models.CASCADE)
     content = models.TextField()
     create_date = models.DateTimeField()
+   
     # blank=True는 form.is_valid()를 통한 입력 데이터 검증 시 값이 없어도 된다는 의미
     modify_date = models.DateField(null=True,blank=True)
-    voter = models.ManyToManyField(User,related_name='voter_comment')
+    #추천
+    voter = models.ManyToManyField(settings.AUTH_USER_MODEL,related_name='voter_comment')

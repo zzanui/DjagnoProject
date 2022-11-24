@@ -171,3 +171,6 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 #회원가입시 이동하는 URL
 ACCOUNT_STGNUP_REDIRECT_URL = '/'
+
+#커스텀 유저모델 사용
+AUTH_USER_MODEL = 'common.User'
