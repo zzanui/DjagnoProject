@@ -11,7 +11,7 @@ def singup(request):
             username = form.cleaned_data.get('username') #form.cleaned_data.get //개별적으로 값을 얻고 싶을 경우 사용
             raw_password = form.cleaned_data.get('password1')
             
-            user = authenticate(username = username,password=raw_password)#사용자 인증
+            user = authenticate(request, username = username,password=raw_password)#사용자 인증
             login(request,user,backend='django.contrib.auth.backends.ModelBackend')#로그인
             return redirect('/')
     else:
