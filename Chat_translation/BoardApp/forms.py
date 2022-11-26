@@ -11,7 +11,7 @@ class ArticleForm(forms.ModelForm):
         #     'title' : forms.TextInput(attrs={'class' : 'form-control'}),
         #     'content' : forms.Textarea(attrs={'class':'form-control','rows':'10'}),
         # }
-        labls = {
+        labels = {
             'title' : "제목",
             'content' : "내용",
         }

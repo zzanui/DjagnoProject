@@ -22,3 +22,20 @@ class User(AbstractUser):
         
     def __str__(self):
         return self.email
+    
+#models.py
+#프로필
+class Profile(models.Model):
+    """    
+        유저아이디
+        프로필이미지
+        프로필소개글
+    """
+
+    user = models.OneToOneField(User,on_delete=models.CASCADE)#유저와 1:1 join
+    profile_img = models.ImageField(blank=True,upload_to="images/")
+    profile_content = models.TextField(blank=True)
+
+
+
+    
