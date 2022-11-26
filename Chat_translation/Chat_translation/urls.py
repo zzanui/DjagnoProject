@@ -18,6 +18,7 @@ from django.urls import path,include
 from BoardApp.views import base_views
 
 
+
 urlpatterns = [
     path('common/',include("common.urls")),
     path("ChatApp/",include("ChatApp.urls")),

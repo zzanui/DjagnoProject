@@ -157,7 +157,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+#미디어파일이 저장되는 경로를 설정
+MEDIA_ROOT = os.path.join(BASE_DIR,'media') 
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [

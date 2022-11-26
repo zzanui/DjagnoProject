@@ -5,7 +5,11 @@
     <h5 class="my-3 border-bottom pd-2">프로필</h5>
     <div class="mb-3">
         <label for="profile_img" class="form-label">프로필 사진</label>
-        <img class="image" src="{{ profile.profile_img }}"/>
+        <br>
+        <img class="image" src="{{ profile.profile_img.url }}" width=300px, height=300px/>
+
+        
+
     </div>
         <div class="mb-3">
             <label for="nickname" class="form-label">닉네임</label>
