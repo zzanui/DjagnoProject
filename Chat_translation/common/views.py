@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import authenticate,login
 from common.forms import UserForm,ProfileForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from .models import Profile
 
@@ -11,9 +12,10 @@ def singup(request):
         form = UserForm(request.POST)
         if form.is_valid():
             user_profile = form.save()
-            Profile.objects.create(user=user_profile) #프로필 생성
-            
             username = form.cleaned_data.get('username') #form.cleaned_data.get //개별적으로 값을 얻고 싶을 경우 사용
+            
+            Profile.objects.create(user=user_profile,nickname=username) #프로필 생성
+            
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(request, username = username,password=raw_password)#사용자 인증
             login(request,user,backend='django.contrib.auth.backends.ModelBackend')#로그인
@@ -21,7 +23,7 @@ def singup(request):
     else:
         form = UserForm()
     return render(request,'common/signup.html',{'form':form})
-# Create your views here.
+
 
 
 #프로필 조회
@@ -33,24 +35,24 @@ def profile_detail(request,user_id):
 
 
 
-
-
-
-
 #프로필수정
 @login_required(login_url="common:login")
-def profile_modify(request,profile_id):
+def profile_modify(request,user_id):
     
-    profile = get_object_or_404(Profile,pk = profile_id)
-    
+    profile = get_object_or_404(Profile,user_id = user_id)
+
+    if request.user.pk != profile.user_id:
+        messages.error(request,'수정권한이 없습니다.')
+        return redirect("common:profile_detail",user_id = profile.user_id)        
     if request.method == "POST":
-        form = ProfileForm(request.POST)
+        form = ProfileForm(request.POST,request.FILES,instance=profile)
         if form.is_valid():
+
             profile = form.save(commit=False)
-            profile.user_id = request.user
+            
             profile.save()
-            return redirect("common:profile_modify",profile_id = profile.id)
+            return redirect("common:profile_detail",user_id = profile.user.id)
     else:
         form = ProfileForm(instance=profile)
     context = {'form':form}
-    return render(request,"common/profile_modify.html")
+    return render(request,"common/profile_modify.html",context)

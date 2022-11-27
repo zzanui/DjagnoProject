@@ -3,26 +3,33 @@
 
 <div class="container">
     <h5 class="my-3 border-bottom pd-2">프로필</h5>
+
+   
     <div class="mb-3">
         <label for="profile_img" class="form-label">프로필 사진</label>
         <br>
-        <img class="image" src="{{ profile.profile_img.url }}" width=300px, height=300px/>
-
-        
-
+        {% if profile.profile_img %}
+        <img class="image" src="{{ profile.profile_img.url|default_if_none:'' }}" width=300px, height=300px/>
+        {% else %}
+        <img class="image" src="Chat_translation\media\images\일리아칸_1관.PNG" width=300px, height=300px/>
+        {% endif %}
     </div>
+    
+
+   
         <div class="mb-3">
             <label for="nickname" class="form-label">닉네임</label>
             <input type="text" class="form-control" name="nickname" id="nickname" disabled
-                value = "{{profile.user.nickname|default_if_none:''}}">
+                value = "{{profile.nickname|default_if_none:''}}">
         </div>
         <div class="mb-3">
             <label for="profile_content" class="form-label">소개글</label>
             <textarea class="form-control" name="profile_content" disabled
                 id="profile_content" rows="10">{{profile.profile_content|default_if_none:'' }}</textarea>
         </div>
-            <button type="submit" class="btn btn-primary">수정하기</button>
-
+        {% if request.user == profile.user %}
+            <a href="{% url 'common:profile_modify' user_id=user.id %}" class="btn btn-primary">수정하기</a> 
+        {% endif %}
 </div>
 {% endblock  %}
 

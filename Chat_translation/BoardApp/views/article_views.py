@@ -40,7 +40,7 @@ def article_modify(request,article_id):
             article.save()
             return redirect('BoardApp:detail',article_id=article.id)
     else:
-        form = ArticleForm(instance=article)#인스턴스(instance)값 지정시 속상값이 인스턴스 값으로 채워진다.
+        form = ArticleForm(instance=article)#인스턴스(instance)값 지정시 속성값이 인스턴스 값으로 채워진다.
     context = {'form':form}
     return render(request,"board/article_form.html",context)
             
