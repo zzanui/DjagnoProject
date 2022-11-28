@@ -36,6 +36,12 @@ class Profile(models.Model):
     profile_img = models.ImageField(blank=True,null=True,upload_to="images/")
     profile_content = models.TextField(blank=True)
 
-
-
+#친구목록
+class Friend(models.Model):
+    """
+    유저
+    친구유저
+    """
+from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user')
+to_user   = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_user')
     
