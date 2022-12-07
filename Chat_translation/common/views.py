@@ -4,7 +4,7 @@ from common.forms import UserForm,ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Profile
+from .models import Profile,Follow
 
 #회원가입
 def singup(request):
@@ -15,6 +15,8 @@ def singup(request):
             username = form.cleaned_data.get('username') #form.cleaned_data.get //개별적으로 값을 얻고 싶을 경우 사용
             
             Profile.objects.create(user=user_profile,nickname=username) #프로필 생성
+            
+            Follow.objects.create(user = user_profile)#팔로우목록 생성
             
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(request, username = username,password=raw_password)#사용자 인증
@@ -56,3 +58,18 @@ def profile_modify(request,user_id):
         form = ProfileForm(instance=profile)
     context = {'form':form}
     return render(request,"common/profile_modify.html",context)
+
+
+
+#팔로우 목록
+@login_required(login_url="common:login")
+def follow_list(request,user_id):
+    follow = get_object_or_404(Follow,user_id=user_id)
+    context = {"follow" : follow}
+    return render(request,"common/follow_list.html",context)
+    
+    
+    
+    
+    
+    

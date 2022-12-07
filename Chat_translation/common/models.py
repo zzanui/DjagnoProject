@@ -19,7 +19,7 @@ class User(AbstractUser):
         
         
     def __str__(self):
-        return self.email
+        return self.username
     
 #models.py
 #프로필
@@ -36,12 +36,13 @@ class Profile(models.Model):
     profile_img = models.ImageField(blank=True,null=True,upload_to="images/")
     profile_content = models.TextField(blank=True)
 
+
 #친구목록
-class Friend(models.Model):
+class Follow(models.Model):
     """
-    유저
+    유저 
     친구유저
     """
-from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_user')
-to_user   = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_user')
+    user = models.OneToOneField(User, on_delete=models.CASCADE,related_name="user")
+    to_user   = models.ManyToManyField(User,related_name="to_user")
     

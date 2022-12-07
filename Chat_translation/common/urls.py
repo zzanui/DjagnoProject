@@ -17,4 +17,6 @@ urlpatterns = [
     path('profile_detail/<int:user_id>>',views.profile_detail,name='profile_detail'),
     path('profile_modify/<int:user_id>/',views.profile_modify,name='profile_modify'),
     
+    #팔로우
+    path('follow_list/<int:user_id>/',views.follow_list,name='follow_list'),
 ]

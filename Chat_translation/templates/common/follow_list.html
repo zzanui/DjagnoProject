@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+{% load board_filter %}
+{% block content %}
+
+
+<div class="container my-3" >
+    <div class = "row">
+        <div  class ="col-xs-8 col-sm-6">
+            <table class="table">
+                <thead>
+                    <tr class="text-center table-dark">
+                        <th>친구</th>     
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if follow%}
+                        
+                    {%for user in follow.to_user.all%}
+                    <tr class-"text-start">
+                        <td>{{user.profile.nickname}}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="4">친구가 없습니다.</td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>      
+        <div  class ="col-xs-4 col-sm-6">
+            <table class="table">
+                <thead>
+                    <tr class="text-center table-dark">
+                        <th>친구추가</th>     
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}
