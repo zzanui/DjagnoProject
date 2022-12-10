@@ -57,6 +57,7 @@ def article_delete(request,article_id):
 #게시글 추천
 @login_required(login_url="common:login")
 def article_vote(request,article_id):
+    print(request)
     article= get_object_or_404(Article,pk=article_id)
     if request.user == article.author:
         messages.error(request,'본인이 작성한 글은 추천이 불가능합니다.')

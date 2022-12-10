@@ -14,9 +14,12 @@ urlpatterns = [
     path('signup/',views.singup,name="signup"),
     
     #프로필
-    path('profile_detail/<int:user_id>>',views.profile_detail,name='profile_detail'),
+    path('profile_detail/<int:user_id>/',views.profile_detail,name='profile_detail'),
     path('profile_modify/<int:user_id>/',views.profile_modify,name='profile_modify'),
     
     #팔로우
     path('follow_list/<int:user_id>/',views.follow_list,name='follow_list'),
+    path('following/<int:to_user_id>/',views.following,name="following"),
+    path('unFollowing/<int:to_user_id>/',views.unFollowing,name="unFollowing"),
+    
 ]

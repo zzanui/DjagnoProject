@@ -4,7 +4,7 @@ from common.forms import UserForm,ProfileForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from .models import Profile,Follow
+from .models import Profile,Follow,User
 
 #회원가입
 def singup(request):
@@ -65,9 +65,42 @@ def profile_modify(request,user_id):
 @login_required(login_url="common:login")
 def follow_list(request,user_id):
     follow = get_object_or_404(Follow,user_id=user_id)
-    context = {"follow" : follow}
+    userList = User.objects.exclude(pk=request.user.pk)#자기자신을 재외하고 불러옴
+    
+    context = {"follow" : follow , "userList" : userList}
+    
     return render(request,"common/follow_list.html",context)
     
+    
+    
+#팔로우
+@login_required(login_url="common:login")
+def following(request,to_user_id):
+    print(request)
+    
+    to_user = get_object_or_404(User,pk = to_user_id)
+    followUser = get_object_or_404(Follow,user = request.user)
+    
+    followUser.to_user.add(to_user)
+    
+    
+    return redirect('common:follow_list',user_id = request.user.id)
+    
+#언팔로우
+@login_required(login_url="common:login")
+def unFollowing(request,to_user_id):
+    to_user = get_object_or_404(User,pk = to_user_id)
+    followUser = get_object_or_404(Follow,user = request.user)
+    
+    followUser.to_user.remove(to_user)
+    
+    return redirect('common:follow_list',user_id = request.user.id)
+        
+    
+    
+    
+
+
     
     
     
