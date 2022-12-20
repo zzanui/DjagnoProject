@@ -32,10 +32,13 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'daphne',
 
     'BoardApp',
     'common',
+    'ChatApp',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -43,8 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'ChatApp',
-    'channels',
+    
+    
 
     #allauth
     'django.contrib.sites', #사이트 정보를 설정하기 위해 필요
@@ -97,13 +100,14 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Chat_translation.wsgi.application'
-ASGI_APPLICATION = "Chat_translation.asgi.application"
 
+# Channels
+#WSGI_APPLICATION = 'Chat_translation.wsgi.application'
+ASGI_APPLICATION = 'Chat_translation.asgi.application'
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
+        "CONFIG": { 
             "hosts": [("127.0.0.1", 6379)],
         },
     },
