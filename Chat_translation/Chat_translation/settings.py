@@ -183,3 +183,7 @@ ACCOUNT_STGNUP_REDIRECT_URL = '/'
 
 #커스텀 유저모델 사용
 AUTH_USER_MODEL = 'common.User'
+
+
+#수정이 필요할 수도 있다
+# os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = 'true'

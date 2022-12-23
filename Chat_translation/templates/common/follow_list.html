@@ -18,11 +18,18 @@
                     {%for user in follow.to_user.all%}
                     <tr class-"text-start">
                         <td>{{user.profile.nickname}}
-                            <a href = "{% url 'common:unFollowing' to_user_id=user.id %}" data-url = :"{% url 'common:unFollowing' to_user_id=user.id %}"
+                            <a href = "{% url 'common:unFollowing' to_user_id=user.id %}" 
+                            data-url = :"{% url 'common:unFollowing' to_user_id=user.id %}"
                             class="unFollower btn btn-outline-secondary">
                             삭제
                             </a>
+                            <a href = "{% url 'ChatApp:create_room' user_id=user.id %}" 
+                            class=" btn btn-outline-secondary">
+                            대화
+                            </a>
+                            
                         </td>
+                        
                     </tr>
                     {% endfor %}
                     {% else %}
