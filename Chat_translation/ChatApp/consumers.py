@@ -3,8 +3,8 @@ import json
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
 from .models import Message,Room
-from common.models import User,Profile
-
+from common.models import User
+from .papago import papagoapi
 
 class ChatConsumer(WebsocketConsumer):
     
@@ -34,6 +34,20 @@ class ChatConsumer(WebsocketConsumer):
         }
         return self.send_chat_message(content)
     
+    
+    def translation(self,data):#번역
+        papago = papagoapi()
+        print(data)
+        print(data['text'])
+        translation_text = papago.papago_translation(data['text'])
+        content = {
+            'command':'translation',
+            'text' : translation_text
+        }
+        return self.send_translation(content)
+        
+        
+    
     def messages_to_json(self,messages):
         result = []
         for message in messages:
@@ -48,7 +62,8 @@ class ChatConsumer(WebsocketConsumer):
         }
     commands = {
         "fetch_messages" : fetch_messages,
-         "new_messages" : new_messages
+         "new_messages" : new_messages,
+         "translation" : translation
     }
     
     # websocket 연결
@@ -85,6 +100,14 @@ class ChatConsumer(WebsocketConsumer):
             {
                 "type": "chat_message",
                 "message": message
+            }
+        )
+    def send_translation(self,text):
+        async_to_sync(self.channel_layer.group_send)(
+            self.room_group_name, 
+            {
+                "type": "translation",
+                "message": text
             }
         )
 

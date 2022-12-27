@@ -1,10 +1,33 @@
 {% extends 'base/base.html' %}
 {% block content %}
+
+
+    <br>
     <div class="container ">
-    <textarea class="form-control" id="chat-log" disabled cols="100" rows="20" style="resize: none;"></textarea><br>
-    <input class="form-control" id="chat-message-input" type="text" size="100"><br>
-    <input class="btn btn-outline-secondary" id="chat-message-submit" type="button" value="전송">
+        <textarea class="form-control" id="chat-log" disabled cols="100" rows="20" style="resize: none;"></textarea><br>
+        <div class="row g-3">
+            <div class="col">
+            <input class="form-control" id="chat-message-input" type="text">
+            </div>
+            <input class="btn btn-outline-secondary" id="chat-message-submit" type="button" value="전송">
+        </div>
+
+        {% comment %} <br>
+        <div>
+            <div class="row g-3">
+                <div class="col">
+                  <input type="text" id="chat-translation-input" class="form-control" placeholder="Input" aria-label="Input">
+                </div>
+                <div class="col">
+                  <input type="text" id="chat-translation-output" class="form-control" placeholder="Output" aria-label="Output" disabled>
+                </div>
+                <input class="btn btn-outline-secondary " id="chat-translation-submit" type="button" value="번역">
+              </div>
+            
+            
+        </div>     {% endcomment %}
     </div>
+
 
 
 
@@ -43,6 +66,9 @@
             else if(data['command']==='new_messages'){
                 createMessage(data['message']);
             }
+            else if(data['command']==='translation'){
+                translation_output(data['text'])
+            }   
             
         };
 
@@ -58,6 +84,13 @@
                 document.querySelector('#chat-message-submit').click();
             }
         };
+        document.querySelector('#chat-translation-input').focus();
+        document.querySelector('#chat-translation-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+                document.querySelector('#chat-translation-submit').click();
+            }
+        };
+
 
         // onclick 이벤트가 발생하면 input value를 message에 저장해서 json형태로 chatSocket으로 전송
         // chatSocket 전송이 완료되면 input box value 를 공백으로 초기화
@@ -84,6 +117,27 @@
             const time = data["timestamp"];
             document.querySelector('#chat-log').value += ("[" + time.substr(0,19) + "] " + author + " : " + message + '\n');
         }
+        function translation_output(data){
+            const text = data[""]
+            document.querySelector('#chat-log').value = data
+        }
+
+        //번역
+        document.querySelector('#chat-translation-submit').onclick = function(e) {
+            const translationInputDom = document.querySelector('#chat-translation-input');
+            const translation = translationInputDom.value;
+            chatSocket.send(JSON.stringify({
+                'text': translation,
+                'command':'translation'
+
+            }));
+            translationInputDom.value = '';
+        };
+
+
+
+        
+
     </script>
 
     {% endblock %}
